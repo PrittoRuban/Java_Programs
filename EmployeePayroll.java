@@ -1,29 +1,42 @@
-
 class Customer {
+    private final String name;
+    private final int customerId;
 
-    private String name;
-    private String address;
-    private String phoneNumber;
-
-    public Customer(String name, String address, String phoneNumber) {
+    public Customer(String name, int customerId) {
         this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
+        this.customerId = customerId;
     }
 
-    // Getters and setters for name, address, and phoneNumber
+    public String getName() {
+        return name;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
 }
 
 class Account {
-
-    private int accountNumber;
+    private final int accountId;
+    private final Customer customer;
     private double balance;
-    private Customer customer;
 
-    public Account(int accountNumber, double balance, Customer customer) {
-        this.accountNumber = accountNumber;
-        this.balance = balance;
+    public Account(int accountId, Customer customer, double balance) {
+        this.accountId = accountId;
         this.customer = customer;
+        this.balance = balance;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public double getBalance() {
+        return balance;
     }
 
     public void deposit(double amount) {
@@ -31,46 +44,34 @@ class Account {
     }
 
     public void withdraw(double amount) {
-        if (amount <= balance) {
+        if (balance >= amount) {
             balance -= amount;
-        } else {
-            System.out.println("Insufficient balance");
         }
     }
 
     public void transfer(Account destinationAccount, double amount) {
-        if (amount <= balance) {
-            balance -= amount;
+        if (balance >= amount) {
+            withdraw(amount);
             destinationAccount.deposit(amount);
-        } else {
-            System.out.println("Insufficient balance");
         }
-    }
-
-    // Getters and setters for accountNumber, balance, and customer
-    public double getBalance() {
-        return balance;
     }
 }
 
 public class EmployeePayroll {
-
     public static void main(String[] args) {
-        // Create customers
-        Customer customer1 = new Customer("John Doe", "123 Main St", "123-456-7890");
-        Customer customer2 = new Customer("Jane Smith", "456 Elm St", "987-654-3210");
 
-        // Create accounts
-        Account account1 = new Account(1, 1000.0, customer1);
-        Account account2 = new Account(2, 500.0, customer2);
+        Customer customer1 = new Customer("Alice", 1);
+        Customer customer2 = new Customer("Bob", 2);
 
-        // Perform transactions
-        account1.deposit(500.0);
-        account1.withdraw(200.0);
-        account1.transfer(account2, 300.0);
+        Account account1 = new Account(101, customer1, 1000);
+        Account account2 = new Account(102, customer2, 500);
 
-        // Print account details
-        System.out.println("Account 1 balance: " + account1.getBalance());
-        System.out.println("Account 2 balance: " + account2.getBalance());
+        account1.deposit(500);
+        account1.withdraw(200);
+        account1.transfer(account2, 300);
+
+        System.out.println("Final balance in account " + account1.getAccountId() + ": " + account1.getBalance());
+        System.out.println("Final balance in account " + account2.getAccountId() + ": " + account2.getBalance());
     }
 }
+
