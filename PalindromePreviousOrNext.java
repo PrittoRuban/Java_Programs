@@ -1,6 +1,8 @@
+
 import java.util.Scanner;
 
 class PalindromeTransformation {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String S = sc.next();
@@ -44,7 +46,7 @@ class PalindromeTransformation {
         if ((left == 'z' && right == 'y') || (left == 'y' && right == 'z')) {
             return true;
         }
-        if (Math.abs(left - right) == 1) {
+        if (Math.abs(left - right) <= 2) {
             return true;
         }
         return false;
